@@ -8,30 +8,31 @@ const findCompanyAndIndex = (companyId) =>{
       return [company, index];
     }
   }
-  return false;
+  return [false, false];
 };
 cleanConsole(7, companies);
 
-const getCompany = (companyId) => {
+const getCompanyName = (companyId) => {
   const company = findCompanyAndIndex(companyId);
-  if (company === false) return false;
+  if (company[0] === false) return false;
   return company[0].name;
 };
-console.log('---- EXAMPLE 7 part 1 --- ', getCompany(1));
+console.log('---- EXAMPLE 7 part 1 --- ', getCompanyName(1));
 
 const popCompany = (companyId) => {
   const company = findCompanyAndIndex(companyId);
-  if (company === false) return false;
+  if (company[0] === false) return false;
   companies.slice(company[1]);
-  return true;
+  return company;
 };
 console.log('---- EXAMPLE 7 part 2 --- ', popCompany(2));
 
 const updateCompany = (companyId, content) => {
   const [company, index] = findCompanyAndIndex(companyId);
   if (company === false || content['users'] !== undefined ) return false;
-  companies[index] = Object.assign(company, content);
-  return true;
+  const newCompany = Object.assign(company, content);
+  companies[index] = newCompany;
+  return company;
 };
 
 console.log('---- EXAMPLE 7 part 3 --- ', updateCompany(1, {name: 'Salu2'}));
@@ -43,14 +44,14 @@ const addUserToCompany = (companyId, newUser) => {
   company.users.push(newUser);
   companies[index] = company;
   companies[index].usersLength ++;
-  return true;
+  return newUser;
 };
 
 console.log('---- EXAMPLE 7 part 4 --- ',
     addUserToCompany(1, {lastName: 'Delgado',
       firstName: 'Juan', age: 35, car: true}));
 
-console.log('---- EXAMPLE 7 part 5 --- ', updateCompany(1, {name: 'Salu3'}));
+console.log('---- EXAMPLE 7 part 5 --- ', updateCompany(2, {name: 'Salu3'}));
 
 const findUserAndIndex = (userId, users) =>{
   for (const [index, user] of users.entries()) {
@@ -58,7 +59,7 @@ const findUserAndIndex = (userId, users) =>{
       return [user, index];
     }
   }
-  return false;
+  return [false, false];
 };
 
 const removeUserFromCompany = (companyId, userId) => {
@@ -66,34 +67,40 @@ const removeUserFromCompany = (companyId, userId) => {
   if (company === false) return false;
   const users = company.users;
   const user = findUserAndIndex( userId, users);
-  if (user === false) return false;
+  if (user[0] === false) return false;
   company.users = users.slice(user[1]);
   companies[index] = company;
-  return true;
+  return user[0];
 };
 
-console.log('---- EXAMPLE 7 part 6 --- ', removeUserFromCompany(6, 1));
+console.log('---- EXAMPLE 7 part 6 --- ', removeUserFromCompany(2, 1));
 
+const patchUserFromCompany = (companyId, userId, content) => {
+  const [company, index] = findCompanyAndIndex(companyId);
+  if (company === false) return false;
+  const users = company.users;
+  const [user, userIndex] = findUserAndIndex( userId, users);
+  if (user === false) return false;
+  const newUser = Object.assign(user, content);
+  company.users[userIndex] = newUser;
+  companies[index] = company;
+  return newUser;
+};
 
-console.log('---- EXAMPLE 7 part 7 --- ', 'Put here your function');
-console.log('---- EXAMPLE 7 part 8 --- ', 'Put here your function');
-console.log('---- EXAMPLE 7 part 9 --- ', 'Put here your function');
+console.log('---- EXAMPLE 7 part 7 --- ', patchUserFromCompany(1, 1, {firstName: 'uffKtrabajon'}));
+console.log('---- EXAMPLE 7 part 8 --- ', patchUserFromCompany(1, 1, {firstName: 'uffKtrabajon3'}));
+
+const transferUserCompany = (originalCompany, transferCompany, userId) => {
+  const user = removeUserFromCompany(originalCompany, userId);
+  if (user === false) return false;
+  addUserToCompany(transferCompany, user);
+  return user;
+};
+console.log('---- EXAMPLE 7 part 9 --- ', transferUserCompany(1, 2, 1));
 console.log(companies);
 // -----------------------------------------------------------------------------
 // INSTRUCTIONS IN ENGLISH
 
-
-// Part 6: Create a function taking as a parameter an "id" of "company" and a
-// "id" of "user". The function must remove this "user" from the list of "users"
-// from "company" and change the attribute "usersLength" from "company".
-
-// Part 7: Create a function taking as a parameter an "id" of "company" and a
-// "id" of "user" allowing to make a PATCH (as with an HTTP call) on this
-// "user".
-
-// Part 8: Create a function taking as a parameter an "id" of "company" and a
-// "id" of "user" allowing to make a PUT (as with an HTTP call) on this
-// "user".
 
 // Part 9: Create a function taking as parameter two "id" of "company" and
 // an "id" of "user". The function must allow the user to be transferred as a parameter
@@ -121,6 +128,18 @@ console.log(companies);
 // Part 5: Create a function taking as parameter an "id" of "company" and
 // allowing to make a PUT (as with an HTTP call) on this "company" except
 // on the "users" attribute.
+
+// Part 6: Create a function taking as a parameter an "id" of "company" and a
+// "id" of "user". The function must remove this "user" from the list of "users"
+// from "company" and change the attribute "usersLength" from "company".
+
+// Part 7: Create a function taking as a parameter an "id" of "company" and a
+// "id" of "user" allowing to make a PATCH (as with an HTTP call) on this
+// "user".
+
+// Part 8: Create a function taking as a parameter an "id" of "company" and a
+// "id" of "user" allowing to make a PUT (as with an HTTP call) on this
+// "user".
 // -----------------------------------------------------------------------------
 // INSTRUCTIONS EN FRANÇAIS
 
