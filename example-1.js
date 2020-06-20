@@ -1,7 +1,7 @@
 import {createAll, cleanConsole} from './data';
 const companies = createAll();
 
-const formatCompanies = ( companies ) => {
+export const formatCompanies = ( companies ) => {
   for (const company of companies) {
     company.users = formatUsers(company.users);
     company.name = capitalize(company.name);
@@ -10,7 +10,7 @@ const formatCompanies = ( companies ) => {
   return companies;
 };
 
-const formatUsers = ( users ) => {
+const formatUsers = async ( users ) => {
   return users.map((user) => {
     // If undefined empty string
     (user.firstName !== undefined) ? user.firstName = capitalize(user.firstName) : user.firstName = '';

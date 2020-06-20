@@ -1,8 +1,21 @@
 import {cleanConsole, createAll} from './data';
 const companies = createAll();
 
+const companiesUserCarFiltering = ( companies, hasCar ) => {
+  for (const company of companies) {
+    company.users = validateUserCar(company.users, hasCar);
+    company.usersLength = company.users.length;
+  }
+  return companies;
+};
+
+const validateUserCar = (users, hasCar) => {
+  return users.filter( (user) => user.car === hasCar );
+};
+
 cleanConsole(2, companies);
-console.log('---- EXAMPLE 2 --- ', 'Put here your function');
+console.log('---- EXAMPLE 2 --- ', companiesUserCarFiltering(companies, true));
+
 
 // -----------------------------------------------------------------------------
 // INSTRUCCIONES EN ESPAÑOL

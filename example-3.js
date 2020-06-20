@@ -1,9 +1,36 @@
 import {cleanConsole, createAll} from './data';
-
+import {formatCompanies} from './example-1';
 const companies = createAll();
 
+const companiesFormatValidation = ( companies ) => {
+  const companiesFormatted = formatCompanies(companies);
+  for (const company of companiesFormatted) {
+    const companyFirstChar = company.name.charAt(0);
+    if (companyFirstChar !== companyFirstChar.toUpperCase()) return false;
+    if (validateUsersFormat(company.users) === false) return false;
+  }
+  return true;
+};
+
+const validateUsersFormat = (users) =>{
+  // Using for instead of filter for fast end if found at least 1 error
+  for (const user of users) {
+    if (validateUserFormat(user) === false) return false;
+  }
+  return true;
+};
+
+const validateUserFormat = (user) =>{
+  const firstNameFirstChar = user.firstName.charAt(0);
+  const lastNameFirstChar = user.lastName.charAt(0);
+  if (firstNameFirstChar !== firstNameFirstChar.toUpperCase()) return false;
+  if (lastNameFirstChar !== lastNameFirstChar.toUpperCase()) return false;
+  return true;
+};
+
+// True means well formated
 cleanConsole(3, companies);
-console.log('---- EXAMPLE 3 --- ', 'Put here your function');
+console.log('---- EXAMPLE 3 --- ', companiesFormatValidation(companies));
 
 // -----------------------------------------------------------------------------
 // INSTRUCCIONES EN ESPAÑOL
