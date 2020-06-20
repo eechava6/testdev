@@ -10,7 +10,7 @@ export const formatCompanies = ( companies ) => {
   return companies;
 };
 
-const formatUsers = async ( users ) => {
+const formatUsers = ( users ) => {
   return users.map((user) => {
     // If undefined empty string
     (user.firstName !== undefined) ? user.firstName = capitalize(user.firstName) : user.firstName = '';
@@ -39,11 +39,8 @@ const compareLength = (companyA, companyB) => {
 const compareNames = (userA, userB) => {
   if (userA.firstName === '' || userA.lastName === '') return 1;
   if (userB.firstName === '' || userB.lastName === '') return -1;
-
-
   const nameA = `${userA.firstName.charAt(0)}${userA.lastName.charAt(0)}`;
   const nameB = `${userB.firstName.charAt(0)}${userB.lastName.charAt(0)}`;
-
   const comparison = 0;
   if (nameA < nameB ) {
     return -1;

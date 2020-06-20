@@ -1,9 +1,20 @@
 import {cleanConsole, createAll} from './data';
+import {mergeUsers} from './example-4';
 
 const companies = createAll();
 
+export const reduceUsers = ( companies ) => {
+  const globalUsers = mergeUsers(companies);
+  return globalUsers.map((user) =>{
+    const key = `${user.lastName}${user.firstName}${user.age}`;
+    const obj = {};
+    obj[key] = user.car;
+    return obj;
+  });
+};
+
 cleanConsole(6, companies);
-console.log('---- EXAMPLE 6 --- ', 'Put here your function');
+console.log('---- EXAMPLE 6 --- ', reduceUsers(companies));
 
 // -----------------------------------------------------------------------------
 // INSTRUCCIONES EN ESPAÑOL

@@ -1,8 +1,21 @@
 import {cleanConsole, createAll} from './data';
+import {mergeUsers} from './example-4';
+import {filterUsersByCar} from './example-2';
+
 const companies = createAll();
 
+export const defineNewObject = ( companies ) => {
+  const users = mergeUsers(companies);
+  const usersWithCar = filterUsersByCar(users, true);
+  const hasCar = usersWithCar.length;
+  const averageWithCar = usersWithCar.reduce((acom, user) => {
+    return acom + Number(user.age);
+  }, 0) /hasCar;
+  return {users, size: users.length, hasCar, averageWithCar};
+};
+
 cleanConsole(5, companies);
-console.log('---- EXAMPLE 5 --- ', 'Put here your function');
+console.log('---- EXAMPLE 5 --- ', defineNewObject(companies));
 
 // -----------------------------------------------------------------------------
 // INSTRUCCIONES EN ESPAÑOL

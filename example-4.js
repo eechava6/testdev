@@ -1,8 +1,42 @@
 import {cleanConsole, createAll} from './data';
 const companies = createAll();
 
+export const mergeUsers = ( companies ) => {
+  const usersMerged = [];
+  const newProperty = 'company';
+  for (const company of companies) {
+    usersMerged.push(...addProperty(company.users, newProperty, company.name));
+  }
+  return usersMerged.sort(compareAge);
+};
+
+const addProperty = (users, propertyName, propertyValue) => {
+  return users.map((user) =>{
+    user[propertyName] = propertyValue;
+    return user;
+  });
+};
+
+
+const compareAge = (userA, userB) => {
+  // Use toUpperCase() to ignore character casing
+  if (userA.age === undefined) return -1;
+  if (userB.age === undefined) return 1;
+
+  const ageA = userA.age;
+  const ageB = userB.age;
+
+  let comparison = 0;
+  if (ageA > ageB) {
+    comparison = -1;
+  } else if (ageA < ageB) {
+    comparison = 1;
+  }
+  return comparison;
+};
+
 cleanConsole(4, companies);
-console.log('---- EXAMPLE 4 --- ', 'Put here your function');
+console.log('---- EXAMPLE 4 --- ', mergeUsers(companies));
 
 // -----------------------------------------------------------------------------
 // INSTRUCCIONES EN ESPAÑOL

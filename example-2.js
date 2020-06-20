@@ -3,13 +3,13 @@ const companies = createAll();
 
 const companiesUserCarFiltering = ( companies, hasCar ) => {
   for (const company of companies) {
-    company.users = validateUserCar(company.users, hasCar);
+    company.users = filterUsersByCar(company.users, hasCar);
     company.usersLength = company.users.length;
   }
   return companies;
 };
 
-const validateUserCar = (users, hasCar) => {
+export const filterUsersByCar = (users, hasCar) => {
   return users.filter( (user) => user.car === hasCar );
 };
 
